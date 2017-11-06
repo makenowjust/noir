@@ -1,0 +1,30 @@
+function foo() {
+  return 42;
+}
+
+if (x === y) {
+  console.log(x);
+} else {
+  console.log(y);
+}
+
+var bar;
+
+for (let i = 0; i < 100; i++) {
+  console.log(bar);
+}
+
+class Foo {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+class Bar extends Foo {
+  get z() {
+    return this.x + this.y;
+  }
+}
+
+const bar = new Bar(1, 2);
