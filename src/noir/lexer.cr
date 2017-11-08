@@ -72,7 +72,7 @@ abstract class Noir::Lexer
     name : Symbol?,
     rules : Array(Rule) do
     # :nodoc:
-    def self.build(name : Symbol?)
+    def self.build(name : Symbol? = nil)
       builder = Builder.new([] of Rule)
       with builder yield
       new(name, builder.rules)
@@ -246,7 +246,7 @@ abstract class Noir::Lexer
     end
 
     def push(&block) : Nil
-      state = State::Builder.build name do
+      state = State.build do
         with itself yield
       end
       stack.push state
