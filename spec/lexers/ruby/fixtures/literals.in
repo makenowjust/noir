@@ -1,0 +1,21 @@
+42
+3.14
+?x
+"foo"
+'foo'
+`foo`
+"foo #{bar} baz"
+'foo #{bar} baz'
+%(foo bar baz)
+%q(foo bar baz)
+%w(foo bar baz)
+/foo bar/
+/foo bar/m
+%r(
+  foo
+  bar
+)x
+[]
+[1, 2, 3]
+{foo: "bar"}
+{"foo" => "bar"}
