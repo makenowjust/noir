@@ -1,0 +1,22 @@
+def foo(x, y, &z)
+  begin
+    yield y if x
+  rescue => e
+    puts :rescue
+  ensure
+    puts :ensure
+  end
+end
+
+class Foo
+  def self.foo
+  end
+end
+
+module Bar
+  extend self
+end
+
+class Baz < Foo
+  include Bar
+end
