@@ -1,0 +1,4 @@
+[#<Token Comment::Single>, "// hello"]
+[#<Token Text>, "\n\n"]
+[#<Token Comment::Multiline>, "/*\n  world\n*/"]
+[#<Token Text>, "\n"]

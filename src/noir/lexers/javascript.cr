@@ -18,7 +18,7 @@ class Noir::Lexers::JavaScript < Noir::Lexer
   state :comments_and_whitespace do
     rule /\s+/, Text
     rule /<!--/, Comment
-    rule %r(//.*?$), Comment::Single
+    rule %r(//.*?$)m, Comment::Single
     rule %r(/[*]), Comment::Multiline, :multiline_comment
   end
 
