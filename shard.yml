@@ -1,0 +1,8 @@
+name: noir
+version: 0.1.0
+authors:
+  - TSUYUSATO Kitsune <make.just.on@gmail.com>
+description: |
+  Syntax Highlight Library for Crystal
+
+license: MIT
