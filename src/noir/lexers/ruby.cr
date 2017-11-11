@@ -415,16 +415,16 @@ class Noir::Lexers::Ruby < Noir::Lexer
       (?!\w)
     )x, Str::Char, :pop!
 
-      # special case for using a single space.  Ruby demands that
-      # these be in a single line, otherwise it would make no sense.
-      rule /(\s*)(%[rqswQWxiI]? \S* )/ do |m|
-        m.groups Text, Str::Other
-        m.pop!
-      end
+    # special case for using a single space.  Ruby demands that
+    # these be in a single line, otherwise it would make no sense.
+    rule /(\s*)(%[rqswQWxiI]? \S* )/ do |m|
+      m.groups Text, Str::Other
+      m.pop!
+    end
 
-      mixin :sigil_strings
+    mixin :sigil_strings
 
-      rule //, &.pop!
+    rule //, &.pop!
   end
 
   state :slash_regex do
