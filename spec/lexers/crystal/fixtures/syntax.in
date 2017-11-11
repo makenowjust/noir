@@ -1,0 +1,14 @@
+class Foo
+end
+
+module Bar
+end
+
+module Bar::Baz < Foo
+  include Bar
+
+  def foo(x : String)
+  end
+end
+
+baz = Bar::Baz.new
