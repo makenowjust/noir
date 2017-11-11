@@ -2,7 +2,7 @@
 3.14
 "foo"
 'bar'
-`foo #{42} bar`
+`foo ${42} bar`
 ["foo", "bar"]
 {"foo": "bar"}
 {foo: "bar"}

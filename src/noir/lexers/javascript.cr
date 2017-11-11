@@ -238,13 +238,13 @@ class Noir::Lexers::JavaScript < Noir::Lexer
 
   # template strings
   state :template_string do
-    rule /\${/, Punctuation, :template_string_expr
+    rule /\${/, Str::Interpol, :template_string_expr
     rule /`/, Str::Double, :pop!
     rule /(\\\\|\\[\$`]|[^\$`]|\$(?!{))*/, Str::Double
   end
 
   state :template_string_expr do
-    rule /}/, Punctuation, :pop!
+    rule /}/, Str::Interpol, :pop!
     mixin :root
   end
 end
