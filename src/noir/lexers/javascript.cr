@@ -83,7 +83,7 @@ class Noir::Lexers::JavaScript < Noir::Lexer
   KEYWORDS = Set.new %w(
     for in of while do break return continue switch case default
     if else throw try catch finally new delete typeof instanceof
-    void this yield import export from as async super this
+    void this yield import export from as async super
   )
 
   DECLARATIONS = Set.new %w(
