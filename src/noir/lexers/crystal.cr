@@ -25,16 +25,13 @@ class Noir::Lexers::Crystal < Noir::Lexer
     abort at_exit caller delay exit fork future gets lazy loop
     p print printf puts raise rand read_line sleep spawn sprintf
     system
-
     debugger parallel pp
-
     assert
   )
 
   # https://crystal-lang.org/api/0.23.1/Object.html
   BUILTIN_MACROS = Set.new %w(
     record
-
     class_getter class_getter? class_getter!
     class_setter class_setter? class_setter?
     class_property class_property? class_property!
@@ -69,15 +66,13 @@ class Noir::Lexers::Crystal < Noir::Lexer
     rule /#.*?$/m, Comment::Single, :follow_literal
 
     # names and keywords
-    rule /(module|lib)(\s+)([A-Z]\w*(?:::[A-Z]\w*)*)/,
-      &.groups(Keyword, Text, Name::Namespace)
+    rule /(module|lib)(\s+)([A-Z]\w*(?:::[A-Z]\w*)*)/, &.groups(Keyword, Text, Name::Namespace)
     rule /(def|fun|macro)(\s+)((?:[A-Z]\w*::)*)/ do |m|
       m.groups(Keyword, Text, Name::Namespace)
       m.push :def
     end
     rule /def(?=[*%&^`~+-\/\[<>=])/, Keyword, :def
-    rule /(class|struct|union|type|alias|enum)(\s+)((?:[A-Z_]\w*::)*)([A-Z]\w*)/,
-      &.groups(Keyword, Text, Name::Namespace, Name::Class)
+    rule /(class|struct|union|type|alias|enum)(\s+)((?:[A-Z_]\w*::)*)([A-Z]\w*)/, &.groups(Keyword, Text, Name::Namespace, Name::Class)
     rule ID_REGEX do |m|
       id = m[0]
       if KEYWORDS.includes? id
