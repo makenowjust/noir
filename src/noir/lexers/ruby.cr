@@ -88,7 +88,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
   [
     {:simple_string, Str::Double, '"'},
     {:simple_sym, Str::Symbol, '"'},
-    {:simple_backtick, Str::Backtick, '`'}
+    {:simple_backtick, Str::Backtick, '`'},
   ].each do |(name, tok, fin)|
     state name do
       mixin :string_intp_escaped
@@ -197,7 +197,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
     end
 
     rule /(?:#{builtins_q.join('|')})[?]/, Name::Builtin, :expr_start
-    rule /(?:#{builtins_b.join('|')})!/,  Name::Builtin, :expr_start
+    rule /(?:#{builtins_b.join('|')})!/, Name::Builtin, :expr_start
     rule /(?<!\.)(?:#{builtins_g.join('|')})\b/,
       Name::Builtin, :method_call
 
@@ -233,7 +233,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
       m.token Name::Constant, "#{m[2]}#{m[3]}#{m[4]}"
       m.lexer.as(Ruby).heredoc_queue << {
         {"<<-", "<<~"}.includes?(m[1]),
-        m[3]
+        m[3],
       }
       m.push :heredoc_queue unless m.state? :heredoc_queue
     end
@@ -243,7 +243,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
       m.token Name::Constant, "#{m[2]}#{m[3]}#{m[4]}"
       m.lexer.as(Ruby).heredoc_queue << {
         {"<<-", "<<~"}.includes?(m[1]),
-        ""
+        "",
       }
       m.push :heredoc_queue unless m.state? :heredoc_queue
     end
