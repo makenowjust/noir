@@ -1,0 +1,16 @@
+name: etnoir
+version: 0.1.0
+authors:
+  - TSUYUSATO Kitsune <make.just.on@gmail.com>
+description: |
+  NOIR command-line tool
+
+dependencies:
+  noir:
+    path: ..
+
+targets:
+  etnoir:
+    main: src/etnoir.cr
+
+license: MIT
