@@ -150,6 +150,7 @@ class Noir::Theme
       if style = style?(t)
         css_selectors(t).join(", ", io) { |s| io << s }
         io << " { "
+        style.to_s io
         io << " }"
         io.puts
       end
