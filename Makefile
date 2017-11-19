@@ -4,7 +4,7 @@ ETNOIR_SRC = $(shell find etnoir/src -name '*.cr')
 etnoir: bin/etnoir
 
 bin/etnoir: etnoir/bin/etnoir
-	ln -s ../etnoir/bin/etnoir bin/etnoir
+	ln -sf ../etnoir/bin/etnoir bin/etnoir
 
 etnoir/bin/etnoir: $(NOIR_SRC) $(ETNOIR_SRC)
 	cd etnoir && shards update && shards build
