@@ -1,0 +1,7 @@
+from collections import defaultdict
+
+fizz, buzz = defaultdict(lambda: ''), defaultdict(lambda: '')
+fizz[0], buzz[0] = 'Fizz', 'Buzz'
+
+for i in range(1, 101):
+    print(fizz[i % 3] + buzz[i % 5] or str(i))
