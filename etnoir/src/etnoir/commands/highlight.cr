@@ -57,6 +57,7 @@ module Etnoir::Commands::Highlight
         unless Formatters.valid_name?(name)
           raise "unknown formatter '#{name}'"
         end
+        formatter = name
       end
 
       parser.on("-h", "--help", "show this help") do
