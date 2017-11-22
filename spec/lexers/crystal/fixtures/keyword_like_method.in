@@ -1,0 +1,4 @@
+"foo".is_a?(String)
+"foo".nil?
+"foo".as(String)
+"foo".as?(String)
