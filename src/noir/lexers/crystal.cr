@@ -58,7 +58,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
     ARGF ARGV PROGRAM_NAME STDIN STDOUT STDERR
   )
 
-  ID_REGEX = /[a-z_]\w*(?:[!?](?!=))?/
+  ID_REGEX = /[a-z_]\w*[!?]?/
 
   state :root do
     rule /\n/, Text, :follow_literal
@@ -163,7 +163,12 @@ class Noir::Lexers::Crystal < Noir::Lexer
     rule /@\[/, Punctuation
 
     rule /(&?)(\.)(#{ID_REGEX})/ do |m|
-      m.groups Punctuation, Punctuation, Name::Function
+      case m[3]
+      when "is_a?", "nil?", "as", "as?"
+        m.groups Punctuation, Punctuation, Keyword
+      when
+        m.groups Punctuation, Punctuation, Name::Function
+      end
       m.push :follow_literal
     end
 
