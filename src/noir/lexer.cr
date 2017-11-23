@@ -138,8 +138,7 @@ abstract class Noir::Lexer
       if (klass = {{@type.superclass}}).responds_to?(:state)
         klass.state(name)
       else
-        # TODO
-        raise "error!"
+        raise "undefined state: #{name}"
       end
     end
   end
