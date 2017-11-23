@@ -17,6 +17,9 @@ noir_spec:
 etnoir_spec:
 	cd etnoir && crystal spec
 
+update_fixture:
+	UPDATE_FIXTURE=1 crystal spec
+
 clean:
 	rm -rf etnoir/bin/etnoir
 
