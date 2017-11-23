@@ -20,3 +20,13 @@
 "foo bar"
 "foo #{ {:bar} } baz"
 %w(foo (bar) baz)
+<<-FOO
+foo bar
+#{foo bar}
+FOO
+<<-'FOO'
+foo bar
+#{foo bar}
+FOO
+%r{foo}
+%r[foo]mix
