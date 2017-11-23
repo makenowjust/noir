@@ -1,14 +1,143 @@
-class Foo
+# types
+
+Foo
+Foo::Bar
+
+# builtin
+Int32
+String
+
+class Foo::Bar
 end
 
-module Bar
+struct Foo::Bar
 end
 
-module Bar::Baz < Foo
-  include Bar
+enum Foo::Bar
+end
 
-  def foo(x : String)
+module Foo::Bar
+end
+
+lib Foo
+  struct Bar
   end
+
+  enum Bar
+  end
+
+  union Bar
+  end
+
+  type Bar = Foo
 end
 
-baz = Bar::Baz.new
+
+# constants
+
+FOO
+Foo::BAR
+
+# builtins
+ARGV
+PROGRAM_NAME
+
+
+# methods
+
+def foo
+end
+
+fun foo
+end
+
+macro foo
+end
+
+def self.foo
+end
+
+def Foo.foo
+end
+
+def foo?; end
+def foo!; end
+
+def +; end
+def -; end
+def *; end
+def /; end
+def %; end
+def **; end
+def ~; end
+def |; end
+def &; end
+def ^; end
+def <<; end
+def >>; end
+def ==; end
+def ===; end
+def !=; end
+def <; end
+def <=; end
+def >; end
+def >=; end
+def <=>; end
+def =~; end
+def !~; end
+
+# variables
+
+foo
+@foo
+@@foo
+
+$?
+$~
+$1
+$2?
+
+
+# method invocations
+
+foo.foo
+foo.foo?
+foo.foo!
+
+foo.foo do |bar|
+end
+foo.foo { |bar| }
+
+`foo #{foo} bar`
+
++foo
+-foo
+foo + bar
+foo - bar
+foo * bar
+foo / bar
+foo % bar
+foo ** bar
+(foo + bar) * (foo - bar)
+
+~foo
+foo | bar
+foo & bar
+foo ^ bar
+foo << bar
+foo >> bar
+
+foo == bar
+foo === bar
+foo != bar
+foo < bar
+foo <= bar
+foo > bar
+foo >= bar
+foo <=> bar
+foo =~ bar
+foo !~ bar
+
+!foo
+foo || bar
+foo && bar
