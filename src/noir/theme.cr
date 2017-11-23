@@ -76,14 +76,13 @@ class Noir::Theme
       if (klass = {{@type.superclass}}).responds_to?(:palette)
         klass.palette(color_name)
       else
-        # TODO
-        raise "error!"
+        raise "undefined color: #{color_name}"
       end
     end
   end
 
   def self.palette(color_name, color)
-    color = Color.parse(color) || raise "error!"
+    color = Color.parse(color) || raise "invalid color: #{color}"
     @@palette[color_name] = color
   end
 
@@ -116,7 +115,7 @@ class Noir::Theme
   end
 
   private def self.color(color : String)
-    Color.parse(color) || raise "error!"
+    Color.parse(color) || raise "invalid color: #{color}"
   end
 
   private def self.color(color : Nil)
