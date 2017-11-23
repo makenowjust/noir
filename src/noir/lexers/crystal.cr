@@ -133,7 +133,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
       has_interpolation = m[2] != "\'"
 
       m.push do
-        rule /^(\s*)(\w*)/m do |m|
+        rule /^(\s*)(\w+)/m do |m|
           if m[2] == heredoc_name
             m.groups Str::Heredoc, Name::Constant
             m.pop!
@@ -144,7 +144,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
 
         mixin :has_interpolation if has_interpolation
 
-        rule /.*?$/m, Str::Heredoc
+        rule /.*?(?:\n|$)/, Str::Heredoc
       end
     end
 
@@ -153,14 +153,15 @@ class Noir::Lexers::Crystal < Noir::Lexer
     rule /:(?:#{ID_REGEX}|(?:[-+\/%!~^]|\*\*?|\|\|?|&&?|<=>|<<?|>>?|==?|!~)|"(?:\\.|.)*?")/, Str::Symbol
     rule /`/, Str::Backtick, :backtick
 
+    rule /[0-9][0-9_]*\.[0-9_]*(?:[eE][-+][0-9]+)?(?:f32|f64)?/, Num::Float
     rule /0b[01_]+(?:[iu](?:8|16|32|64|128))?/, Num::Bin
     rule /0o[0-7_]+(?:[iu](?:8|16|32|64|128))?/, Num::Oct
     rule /0x[0-9a-fA-F_]+(?:[iu](?:8|16|32|64|128))?/, Num::Hex
-    rule /[0-9][0-9_]*\.[0-9_]+(?:[eE][-+][0-9]+)?(?:f32|f64)/, Num::Float
-    rule /[0-9][0-9_]*\.?(?:[eE][-+][0-9]+)?(?:f32|f64)/, Num::Float
+    rule /[0-9][0-9_]*(f32|f64)/, Num::Float
     rule /[0-9][0-9_]*(?:[iu](?:8|16|32|64|128))?/, Num::Integer
 
     rule /@\[/, Punctuation
+    rule /\=>/, Punctuation, :follow_literal
 
     rule /(&?)(\.)(#{ID_REGEX})/ do |m|
       case m[3]
@@ -234,10 +235,15 @@ class Noir::Lexers::Crystal < Noir::Lexer
       close = Regex.escape(close)
 
       m.push do
-        rule /#{close}/, type, :pop!
+        if type == Str::Regex
+          rule /#{close}[mix]*/, type, :pop!
+        else
+          rule /#{close}/, type, :pop!
+        end
         rule /#{open}/, type, :push if open != close
         mixin :has_interpolation if has_interpolation
         rule /[^#{open}#{close}\\#]+|\\./, type
+        rule /[#{open}#{close}\\#]/, type
       end
     end
 
