@@ -105,7 +105,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
     rule /@@[a-z]\w*/, Name::Variable::Class
     rule /@[a-z]\w*/, Name::Variable::Instance
     rule /\$[a-z]\w*/, Name::Variable::Global
-    rule /\$[?~1-9]/, Name::Variable::Global
+    rule /\$(?:[?~]|[1-9]\??)/, Name::Variable::Global
     rule /[A-Z]\w*/ do |m|
       name = m[0]
       if name.each_char.all? &.ascii_uppercase?
@@ -290,7 +290,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
       (?:([a-zA-Z_][\w_]*)(\.))?
       (
         #{ID_REGEX} |
-        (?:[-+/%!~^]|\*\*?|\||&|<=>|<[<=]?|>[>=]?|===?|=~|!~) |
+        (?:[-+/%~^]|\*\*?|\||&|<=>|<[<=]?|>[>=]?|===?|=~|![~=]?) |
         \[\][?=]?
       )
     )x do |m|
