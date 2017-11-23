@@ -108,7 +108,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
     rule /\$(?:[?~]|[1-9]\??)/, Name::Variable::Global
     rule /[A-Z]\w*/ do |m|
       name = m[0]
-      if name.each_char.all? &.ascii_uppercase?
+      if name =~ /\A[A-Z_]+\z/
         if BUILTIN_CONSTANTS.includes? name
           m.token Name::Builtin
         else
