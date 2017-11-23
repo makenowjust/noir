@@ -83,7 +83,7 @@
 [#<Token Text>, "\n"]
 [#<Token Name::Builtin>, "ARGV"]
 [#<Token Text>, "\n"]
-[#<Token Name::Class>, "PROGRAM_NAME"]
+[#<Token Name::Builtin>, "PROGRAM_NAME"]
 [#<Token Text>, "\n\n\n"]
 [#<Token Comment::Single>, "# methods"]
 [#<Token Text>, "\n\n"]
