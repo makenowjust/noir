@@ -1,0 +1,50 @@
+body {
+    font-size: 12pt;
+    background   : #fff url(temp.png) top left no-repeat;
+    width: 75%;
+}
+
+* html body {
+    font-size: 14pt;
+}
+
+#nav .new {
+    display: block;
+}
+
+ul#nav li.new {
+    font-weight: bold;
+}
+
+:link {
+    color: #f00;
+}
+
+:link:hover {
+    color: #0f0;
+}
+
+*::before {
+  content: "text";
+}
+
+:first-child::after {
+  display: none;
+}
+
+.class:first-child:focus::after {
+  display: none;
+}
+
+#thing {
+  font: normal 400 12px/35px Helvetica, Arial, sans-serif;
+}
+
+#foo {
+  unrecognized-prop: 1;
+  -moz-prefixed-prop: 2;
+}
+
+a[target="_blank"] {
+    background-color: yellow;
+}

@@ -1,0 +1,9 @@
+/* This is a comment */
+
+body {
+  font-size: 1em;  /* this also is a comment */
+}
+
+/*
+  this is a comment as well
+*/
