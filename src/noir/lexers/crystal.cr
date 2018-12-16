@@ -247,7 +247,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
       end
     end
 
-    rule //, Text, :pop!
+    rule %r(), Text, :pop!
   end
 
   state :string do
@@ -298,7 +298,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
       m.pop!
     end
 
-    rule //, &.pop!
+    rule %r(), &.pop!
   end
 
   state :begin_block_arg do
@@ -311,6 +311,6 @@ class Noir::Lexers::Crystal < Noir::Lexer
     rule /\s+/, Text
     rule /[(),]/, Punctuation
     rule /[a-z_]\w*/, Name::Variable
-    rule //, Text, :pop!
+    rule %r(), Text, :pop!
   end
 end

@@ -284,7 +284,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
       m.pop!
     end
 
-    rule //, &.pop!
+    rule %r(), &.pop!
   end
 
   state :funcname do
@@ -302,7 +302,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
       m.pop!
     end
 
-    rule //, &.pop!
+    rule %r(), &.pop!
   end
 
   state :classname do
@@ -321,7 +321,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
 
     rule /[A-Z_]\w*/, Name::Class, :pop!
 
-    rule //, &.pop!
+    rule %r(), &.pop!
   end
 
   state :ternary do
@@ -372,7 +372,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
 
     rule /(?=\n)/, &.pop!
 
-    rule //, &.goto :method_call_spaced
+    rule %r(), &.goto :method_call_spaced
   end
 
   state :method_call_spaced do
@@ -396,7 +396,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
       m.token Text
       m.goto :expr_start
     end
-    rule //, &.pop!
+    rule %r(), &.pop!
   end
 
   state :expr_start do
@@ -424,7 +424,7 @@ class Noir::Lexers::Ruby < Noir::Lexer
 
     mixin :sigil_strings
 
-    rule //, &.pop!
+    rule %r(), &.pop!
   end
 
   state :slash_regex do
