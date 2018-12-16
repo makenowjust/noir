@@ -35,7 +35,7 @@ class Noir::Lexers::JavaScript < Noir::Lexer
       m.goto :object
     end
 
-    rule //, Text, :pop!
+    rule %r(), Text, :pop!
   end
 
   state :regex do
@@ -58,7 +58,7 @@ class Noir::Lexers::JavaScript < Noir::Lexer
 
   state :regex_end do
     rule /[gim]+/, Str::Regex, :pop!
-    rule //, &.pop!
+    rule %r(), &.pop!
   end
 
   state :regex_group do
