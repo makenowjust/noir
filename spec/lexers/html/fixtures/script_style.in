@@ -1,0 +1,4 @@
+<script>alert(2)</script>
+<style>
+a{color:red;}
+</style>
