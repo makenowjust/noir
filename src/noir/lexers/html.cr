@@ -27,21 +27,21 @@ class Noir::Lexers::HTML < Noir::Lexer
   end
 
   state :root do
-    rule /[^<&]+/m, Text
+    rule /[^<&]+/, Text
     rule /&\S*?;/, Name::Entity
     rule /<!DOCTYPE .*?>/im, Comment::Preproc
     rule /<!\[CDATA\[.*?\]\]>/m, Comment::Preproc
     rule /<!--/, Comment, :comment
     rule /<\?.*?\?>/m, Comment::Preproc
 
-    rule /<\s*script\s*/m do |m|
+    rule /<\s*script\s*/ do |m|
       m.token Name::Tag
       m.lexer.as(HTML).reset_js_lexer
       m.push :script_content
       m.push :tag
     end
 
-    rule /<\s*style\s*/m do |m|
+    rule /<\s*style\s*/ do |m|
       m.token Name::Tag
       m.lexer.as(HTML).reset_css_lexer
       m.push :style_content
@@ -86,10 +86,10 @@ class Noir::Lexers::HTML < Noir::Lexer
   end
 
   state :tag do
-    rule /\s+/m, Text
-    rule /[a-zA-Z0-9_:-]+\s*=\s*/m, Name::Attribute, :attr
+    rule /\s+/, Text
+    rule /[a-zA-Z0-9_:-]+\s*=\s*/, Name::Attribute, :attr
     rule /[a-zA-Z0-9_:-]+/, Name::Attribute
-    rule %r(/?\s*>)m, Name::Tag, :pop!
+    rule %r(/?\s*>), Name::Tag, :pop!
   end
 
   state :attr do
@@ -121,7 +121,7 @@ class Noir::Lexers::HTML < Noir::Lexer
       m.delegate m.lexer.as(HTML).js_lexer
     end
 
-    rule %r(<\s*/\s*script\s*>)m, Name::Tag, :pop!
+    rule %r(<\s*/\s*script\s*>), Name::Tag, :pop!
 
     rule %r(<) do |m|
       m.delegate m.lexer.as(HTML).js_lexer
@@ -133,7 +133,7 @@ class Noir::Lexers::HTML < Noir::Lexer
       m.delegate m.lexer.as(HTML).css_lexer
     end
 
-    rule %r(<\s*/\s*style\s*>)m, Name::Tag, :pop!
+    rule %r(<\s*/\s*style\s*>), Name::Tag, :pop!
 
     rule /</ do |m|
       m.delegate m.lexer.as(HTML).css_lexer
