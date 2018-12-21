@@ -7,7 +7,7 @@ class Noir::Lexers::JSON < Noir::Lexer
   state :root do
     rule /\s+/, Text::Whitespace
     rule /"/, Str::Double, :string
-    rule /(true|false|null)\b/, Keyword::Constant
+    rule /\b(true|false|null)\b/, Keyword::Constant
     rule /[{},:\[\]]/, Punctuation
     rule /-?(0|[1-9]\d*)(\.\d+)?(e[+-]?\d+)?/i, Num
   end
