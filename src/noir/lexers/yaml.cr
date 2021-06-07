@@ -80,7 +80,7 @@ class Noir::Lexers::YAML < Noir::Lexer
 
   state :basic do
     # https://github.com/crystal-lang/crystal/issues/8062
-    rule /#.*$/, Comment::Single
+    rule /#[^\n\r]*/, Comment::Single
   end
 
   state :root do
@@ -110,7 +110,7 @@ class Noir::Lexers::YAML < Noir::Lexer
     end
 
     # indentation spaces
-    rule /[ ]*(?!\s|$)/ do |m|
+    rule /[ ]*(?!\s|\n|$)/ do |m|
       text, err = m.lexer.as(YAML).save_indent(m[0])
       #text, err = save_indent(m[0])
       m.token Text, text
@@ -151,7 +151,7 @@ class Noir::Lexers::YAML < Noir::Lexer
   # indented line in the block context
   state :block_line do
     # line end
-    rule /[ ]*(?=#|$)/ do |m|
+    rule /[ ]*(?=#|$|\n)/m do |m|
         m.token Text
         m.pop!
     end
@@ -323,14 +323,18 @@ class Noir::Lexers::YAML < Noir::Lexer
   end
 
   state :plain_scalar_in_block_context_new_line do
-    rule /^[ ]+\n/, Text
+    # empty lines
+    rule /^[ ]+\n/m, Text
+    # line breaks
     rule /\n+/m, Text
-    rule /^(?=---|\.\.\.)/ do |m|
+    # document start and document end indicators
+    rule /^(?=---|\.\.\.)/m do |m|
       m.pop! 3
     end
 
+    # indentation spaces (we may leave the block line state here)
     # dedent detection
-    rule /^[ ]*/ do |m|
+    rule /^[ ]*/m do |m|
       m.token Text
       m.pop!
 
@@ -390,18 +394,6 @@ class Noir::Lexers::YAML < Noir::Lexer
     )x do |m|
       m.groups Text, Keyword::Type, Text, Keyword::Type
       m.goto :ignored_line
-    end
-  end
-
-  state :ignored_line do
-    mixin :basic
-    rule /[ ]+/ do |m|
-      m.token Text
-    end
-
-    rule /\n/ do |m|
-      m.token Text
-      m.pop!
     end
   end
 

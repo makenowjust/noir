@@ -1,1 +1,8 @@
 # shard.yml
+#shard content
+attribute1: value1
+attribute2: value2
+
+dependencies:
+  noir:
+    github: vjousse/noir
