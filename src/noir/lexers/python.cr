@@ -56,7 +56,7 @@ class Noir::Lexers::Python < Noir::Lexer
     rule /^(:)(\s*)([ru]{,2}""".*?""")/mi, &.groups Punctuation, Text, Str::Doc
 
     rule /[^\S\n]+/, Text
-    rule /#.*$/, Comment
+    rule /#[^\n\r].*/, Comment
     rule /[\[\]{}:(),;]/, Punctuation
     rule /\\\n/, Text
     rule /\\/, Text

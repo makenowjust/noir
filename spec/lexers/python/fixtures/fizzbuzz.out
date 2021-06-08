@@ -1,3 +1,5 @@
+[#<Token Comment>, "# fizzbuzz.py"]
+[#<Token Text>, "\n"]
 [#<Token Keyword::Namespace>, "from"]
 [#<Token Text>, " "]
 [#<Token Name::Namespace>, "collections"]
