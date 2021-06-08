@@ -6,3 +6,50 @@ attribute2: value2
 dependencies:
   noir:
     github: vjousse/noir
+
+# Sequence of scalars
+---
+- Mark McGwire
+- Sammy Sosa
+- Ken Griffey
+
+# Dockerfile example
+version: "3.9"
+services:
+  web:
+    image: vjousse/lucky-prod:0.27.0
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+
+    env_file:
+      - .env.production
+
+    #entrypoint: /bin/bash
+    #stdin_open: true # docker run -i
+    #tty: true        # docker run -t
+
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./content/:/app/content/
+      - ./public/images/:/app/public/images/
+      - ./public/resources/:/app/public/resources/
+    depends_on:
+      - db
+    environment:
+      DB_HOST: "db"
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    #ports:
+    #  - "5432"
+    volumes:
+      - type: volume
+        source: postgres_data_lucky
+        target: /var/lib/postgresql/data
+
+volumes:
+  postgres_data_lucky:
