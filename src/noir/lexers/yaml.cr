@@ -69,7 +69,7 @@ class Noir::Lexers::YAML < Noir::Lexer
       @indent_stack << @next_indent
     end
 
-    @next_indent += match.size unless opts[:implicit]
+    @next_indent += match.size unless opts[:implicit]?
   end
 
   plain_scalar_start = /[^ \t\n\r\f\v?:,\[\]{}#&*!\|>'"%@`]/
