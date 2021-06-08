@@ -11,7 +11,7 @@ class SpecFormatter < Noir::Formatter
     @out = IO::Memory.new
   end
 
-  def format(token, value)
+  def format(token, value): Nil
     [token, value].inspect @out
     @out.puts
   end

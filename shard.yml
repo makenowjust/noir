@@ -6,3 +6,5 @@ description: |
   Syntax Highlight Library for Crystal
 
 license: MIT
+
+crystal: 1.0.0
