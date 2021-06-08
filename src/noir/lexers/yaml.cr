@@ -31,12 +31,8 @@ class Noir::Lexers::YAML < Noir::Lexer
   end
 
   def indent : Int32
-    if stack = @indent_stack
-      raise "empty indent stack!" if stack.empty?
-      stack.last
-    else
-      0
-    end
+    raise "empty indent stack!" if stack.empty?
+    @indent_stack.last
   end
 
   def dedent?(level : Int32)
@@ -46,11 +42,11 @@ class Noir::Lexers::YAML < Noir::Lexer
   # Save a possible indentation level
   def save_indent(match : String)
     @next_indent = match.size
-    puts "    yaml: indent: #{self.indent}/#@next_indent" if @debug
-    puts "    yaml: popping indent stack - before: #@indent_stack" if @debug
+    puts "    yaml: indent: #{self.indent}/#@next_indent: #{@next_indent}" if @debug
+    puts "    yaml: popping indent stack - before: #@indent_stack #{@indent_stack}" if @debug
     if dedent?(@next_indent)
-      while @indent_stack.pop
-       dedent?(@next_indent)
+      while dedent?(@next_indent)
+        @indent_stack.pop
       end
       puts "    yaml: popping indent stack - after: #@indent_stack" if @debug
       puts "    yaml: indent: #{self.indent}/#@next_indent" if @debug
