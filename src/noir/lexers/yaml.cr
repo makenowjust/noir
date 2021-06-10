@@ -42,14 +42,10 @@ class Noir::Lexers::YAML < Noir::Lexer
   # Save a possible indentation level
   def save_indent(match : String)
     @next_indent = match.size
-    puts "    yaml: indent: #{self.indent}/#@next_indent: #{@next_indent}" if @debug
-    puts "    yaml: popping indent stack - before: #@indent_stack #{@indent_stack}" if @debug
     if dedent?(@next_indent)
       while dedent?(@next_indent)
         @indent_stack.pop
       end
-      puts "    yaml: popping indent stack - after: #@indent_stack" if @debug
-      puts "    yaml: indent: #{self.indent}/#@next_indent" if @debug
 
       # dedenting to a state not previously indented to is an error
       [match[0...self.indent], match[self.indent..-1]]
@@ -59,13 +55,11 @@ class Noir::Lexers::YAML < Noir::Lexer
   end
 
   def continue_indent(match)
-    puts "    yaml: continue_indent" if @debug
     @next_indent += match.size
   end
 
   def set_indent(match, opts={} of Int32 => Bool)
     if indent < @next_indent
-      puts "    yaml: indenting #{indent}/#{@next_indent}" if @debug
       @indent_stack << @next_indent
     end
 
