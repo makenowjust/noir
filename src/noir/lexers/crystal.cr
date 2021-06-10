@@ -130,7 +130,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
       m.token Str::Heredoc, m[5]
 
       heredoc_name = m[3]
-      has_interpolation = m[2] != "\'"
+      has_interpolation = m[2] != "'"
 
       m.push do
         rule /^(\s*)(\w+)/m do |m|
@@ -167,8 +167,7 @@ class Noir::Lexers::Crystal < Noir::Lexer
       case m[3]
       when "is_a?", "nil?", "as", "as?"
         m.groups Punctuation, Punctuation, Keyword
-      when
-        m.groups Punctuation, Punctuation, Name::Function
+      when m.groups Punctuation, Punctuation, Name::Function
       end
       m.push :follow_literal
     end

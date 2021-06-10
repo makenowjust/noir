@@ -9,4 +9,3 @@ describe Noir::Lexers::Elm do
 
   it_lexes_fixtures "elm", Noir::Lexers::Elm
 end
-

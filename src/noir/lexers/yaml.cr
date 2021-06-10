@@ -4,9 +4,9 @@ class Noir::Lexers::YAML < Noir::Lexer
   tag "yaml"
   filenames %w(*.yaml *.yml)
   mimetypes %w(text/x-yaml)
-  property block_scalar_indent : (Nil|Int32)
+  property block_scalar_indent : (Nil | Int32)
 
-  @debug: Bool
+  @debug : Bool
   @indent_stack : Array(Int32)
   @next_indent : Int32
 
@@ -58,7 +58,7 @@ class Noir::Lexers::YAML < Noir::Lexer
     @next_indent += match.size
   end
 
-  def set_indent(match, opts={} of Int32 => Bool)
+  def set_indent(match, opts = {} of Int32 => Bool)
     if indent < @next_indent
       @indent_stack << @next_indent
     end
@@ -102,14 +102,12 @@ class Noir::Lexers::YAML < Noir::Lexer
     # indentation spaces
     rule /[ ]*(?!\s|\n|$)/ do |m|
       text, err = m.lexer.as(YAML).save_indent(m[0])
-      #text, err = save_indent(m[0])
+      # text, err = save_indent(m[0])
       m.token Text, text
       m.token Error, err
       m.push :block_line; m.push :indentation
     end
-
   end
-
 
   state :indentation do
     rule /\s*?\n/ do |m|
@@ -137,13 +135,12 @@ class Noir::Lexers::YAML < Noir::Lexer
     end
   end
 
-
   # indented line in the block context
   state :block_line do
     # line end
     rule /[ ]*(?=#|$|\n)/m do |m|
-        m.token Text
-        m.pop!
+      m.token Text
+      m.pop!
     end
     rule /[ ]+/ do |m|
       m.token Text
@@ -162,7 +159,6 @@ class Noir::Lexers::YAML < Noir::Lexer
       m.push :plain_scalar_in_block_context
     end
   end
-
 
   state :descriptors do
     # a full-form tag
@@ -185,7 +181,7 @@ class Noir::Lexers::YAML < Noir::Lexer
     # implicit key
     rule /([^#,:?\[\]{}"'\n]+)(:)(?=\s|$)/ do |m|
       m.groups Name::Attribute, Punctuation::Indicator
-      m.lexer.as(YAML).set_indent m[0], { :implicit => true }
+      m.lexer.as(YAML).set_indent m[0], {:implicit => true}
     end
 
     # literal and folded scalars
@@ -376,7 +372,6 @@ class Noir::Lexers::YAML < Noir::Lexer
     end
   end
 
-
   state :tag_directive do
     rule %r(
       ([ ]+)(!|![\w-]*!) # prefix
@@ -386,5 +381,4 @@ class Noir::Lexers::YAML < Noir::Lexer
       m.goto :ignored_line
     end
   end
-
 end

@@ -1,4 +1,5 @@
 require "../lexer"
+
 class Noir::Lexers::JSON < Noir::Lexer
   tag "json"
   filenames %w(*.json)

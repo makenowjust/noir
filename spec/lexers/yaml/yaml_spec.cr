@@ -9,4 +9,3 @@ describe Noir::Lexers::YAML do
 
   it_lexes_fixtures "yaml", Noir::Lexers::YAML
 end
-

@@ -6,7 +6,7 @@ class Noir::Lexers::CSS < Noir::Lexer
   mimetypes %w(text/css)
 
   IDENTIFIER = /[a-zA-Z0-9_-]+/
-  NUMBER = /-?(?:[0-9]+(\.[0-9]+)?|\.[0-9]+)/
+  NUMBER     = /-?(?:[0-9]+(\.[0-9]+)?|\.[0-9]+)/
 
   ATTRIBUTES = Set.new %w(
     align-content align-items align-self alignment-adjust

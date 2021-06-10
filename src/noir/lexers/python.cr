@@ -48,7 +48,7 @@ class Noir::Lexers::Python < Noir::Lexer
     WindowsError ZeroDivisionError
   )
 
-  IDENTIFIER =        /[a-z_][a-z0-9_]*/i
+  IDENTIFIER        = /[a-z_][a-z0-9_]*/i
   DOTTED_IDENTIFIER = /[a-z_.][a-z0-9_.]*/i
 
   state :root do
@@ -86,12 +86,12 @@ class Noir::Lexers::Python < Noir::Lexer
     rule /`.*?`/, Str::Backtick
     rule /(?:r|ur|ru)"""/i, Str, :raw_tdqs
     rule /(?:r|ur|ru)'''/i, Str, :raw_tsqs
-    rule /(?:r|ur|ru)"/i,   Str, :raw_dqs
-    rule /(?:r|ur|ru)'/i,   Str, :raw_sqs
-    rule /u?"""/i,          Str, :tdqs
-    rule /u?'''/i,          Str, :tsqs
-    rule /u?"/i,            Str, :dqs
-    rule /u?'/i,            Str, :sqs
+    rule /(?:r|ur|ru)"/i, Str, :raw_dqs
+    rule /(?:r|ur|ru)'/i, Str, :raw_sqs
+    rule /u?"""/i, Str, :tdqs
+    rule /u?'''/i, Str, :tsqs
+    rule /u?"/i, Str, :dqs
+    rule /u?'/i, Str, :sqs
 
     rule /@#{DOTTED_IDENTIFIER}/i, Name::Decorator
 
