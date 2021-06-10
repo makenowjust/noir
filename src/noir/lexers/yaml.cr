@@ -210,7 +210,7 @@ class Noir::Lexers::YAML < Noir::Lexer
   end
 
   state :flow_collection do
-    rule /\s+/m, Text
+    rule /\s+/, Text
     mixin :basic
     rule /[?:,]/, Punctuation::Indicator
     mixin :descriptors
@@ -296,7 +296,7 @@ class Noir::Lexers::YAML < Noir::Lexer
     rule /^[ ]+/m, Text
     rule /[ ]+$/m, Text
 
-    rule /\n+/m, Text
+    rule /\n+/, Text
 
     rule /[ ]+/, Name::Variable
   end
@@ -305,7 +305,7 @@ class Noir::Lexers::YAML < Noir::Lexer
     mixin :quoted_scalar_whitespaces
     rule /\\'/, Str::Escape
     rule /'/, Str, :pop!
-    rule /[^\s']+/m, Str
+    rule /[^\s']+/, Str
   end
 
   state :double_quoted_scalar do
@@ -315,14 +315,14 @@ class Noir::Lexers::YAML < Noir::Lexer
     rule /\\[0abt\tn\nvfre "\\N_LP]/, Str::Escape
     rule /\\(?:x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
       Str::Escape
-    rule /[^ \t\n\r\f\v"\\]+/m, Str
+    rule /[^ \t\n\r\f\v"\\]+/, Str
   end
 
   state :plain_scalar_in_block_context_new_line do
     # empty lines
     rule /^[ ]+\n/m, Text
     # line breaks
-    rule /\n+/m, Text
+    rule /\n+/, Text
     # document start and document end indicators
     rule /^(?=---|\.\.\.)/m do |m|
       m.pop! 3
