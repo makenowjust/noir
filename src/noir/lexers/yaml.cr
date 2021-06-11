@@ -70,7 +70,7 @@ class Noir::Lexers::YAML < Noir::Lexer
 
   state :basic do
     # https://github.com/crystal-lang/crystal/issues/8062
-    rule /#[^\n\r]*/, Comment::Single
+    rule /#.*?$/m, Comment::Single
   end
 
   state :root do
@@ -78,29 +78,29 @@ class Noir::Lexers::YAML < Noir::Lexer
     rule /\n+/, Text
     #
     # trailing or pre-comment whitespace
-    rule /[ ]+(?=#|$)/, Text
+    rule /[ ]+(?=#|$)/m, Text
 
-    rule /^%YAML\b/ do |m|
+    rule /^%YAML\b/m do |m|
       m.token Name::Tag
       m.lexer.as(YAML).reset_indent
       m.push :yaml_directive
     end
 
-    rule /^%TAG\b/ do |m|
+    rule /^%TAG\b/m do |m|
       m.token Name::Tag
       m.lexer.as(YAML).reset_indent
       m.push :tag_directive
     end
 
     # doc-start and doc-end indicators
-    rule /^(?:---|\.\.\.)(?= |$)/ do |m|
+    rule /^(?:---|\.\.\.)(?= |$)/m do |m|
       m.token Name::Namespace
       m.lexer.as(YAML).reset_indent
       m.push :block_line
     end
 
     # indentation spaces
-    rule /[ ]*(?!\s|\n|$)/ do |m|
+    rule /[ ]*(?!\s|\n|$)/m do |m|
       text, err = m.lexer.as(YAML).save_indent(m[0])
       # text, err = save_indent(m[0])
       m.token Text, text
@@ -116,13 +116,13 @@ class Noir::Lexers::YAML < Noir::Lexer
     end
 
     # whitespace preceding block collection indicators
-    rule /[ ]+(?=[-:?](?:[ ]|$))/ do |m|
+    rule /[ ]+(?=[-:?](?:[ ]|$))/m do |m|
       m.token Text
       m.lexer.as(YAML).continue_indent(m[0])
     end
 
     # block collection indicators
-    rule /[?:-](?=[ ]|$)/ do |m|
+    rule /[?:-](?=[ ]|$)/m do |m|
       m.lexer.as(YAML).set_indent(m[0])
       m.token Punctuation::Indicator
     end
@@ -179,7 +179,7 @@ class Noir::Lexers::YAML < Noir::Lexer
 
   state :block_nodes do
     # implicit key
-    rule /([^#,:?\[\]{}"'\n]+)(:)(?=\s|$)/ do |m|
+    rule /([^#,:?\[\]{}"'\n]+)(:)(?=\s|$)/m do |m|
       m.groups Name::Attribute, Punctuation::Indicator
       m.lexer.as(YAML).set_indent m[0], {:implicit => true}
     end
@@ -200,7 +200,7 @@ class Noir::Lexers::YAML < Noir::Lexer
   end
 
   state :flow_collection do
-    rule /\s+/m, Text
+    rule /\s+/, Text
     mixin :basic
     rule /[?:,]/, Punctuation::Indicator
     mixin :descriptors
@@ -225,7 +225,7 @@ class Noir::Lexers::YAML < Noir::Lexer
     rule /\n+/, Text
 
     # empty lines never dedent, but they might be part of the scalar.
-    rule /^[ ]+$/ do |m|
+    rule /^[ ]+$/m do |m|
       text = m[0]
       indent_size = text.size
 
@@ -237,7 +237,7 @@ class Noir::Lexers::YAML < Noir::Lexer
 
     # TODO: ^ doesn't actually seem to affect the match at all.
     # Find a way to work around this limitation.
-    rule /^[ ]*/ do |m|
+    rule /^[ ]*/m do |m|
       m.token Text
 
       indent_size = m[0].size
@@ -261,7 +261,7 @@ class Noir::Lexers::YAML < Noir::Lexer
       (
         ([1-9])[+-]? | [+-]?([1-9])?
       )(?=[ ]|$)
-    )x do |m|
+    )xm do |m|
       m.lexer.as(YAML).block_scalar_indent = nil
       m.goto :ignored_line
       next if m[0].empty?
@@ -283,10 +283,10 @@ class Noir::Lexers::YAML < Noir::Lexer
 
   state :quoted_scalar_whitespaces do
     # leading and trailing whitespace is ignored
-    rule /^[ ]+/, Text
-    rule /[ ]+$/, Text
+    rule /^[ ]+/m, Text
+    rule /[ ]+$/m, Text
 
-    rule /\n+/m, Text
+    rule /\n+/, Text
 
     rule /[ ]+/, Name::Variable
   end
@@ -312,7 +312,7 @@ class Noir::Lexers::YAML < Noir::Lexer
     # empty lines
     rule /^[ ]+\n/m, Text
     # line breaks
-    rule /\n+/m, Text
+    rule /\n+/, Text
     # document start and document end indicators
     rule /^(?=---|\.\.\.)/m do |m|
       m.pop! 3
@@ -337,10 +337,10 @@ class Noir::Lexers::YAML < Noir::Lexer
 
   state :plain_scalar_in_block_context do
     # the : indicator ends a scalar
-    rule /[ ]*(?=:[ \n]|:$)/, Text, :pop!
+    rule /[ ]*(?=:[ \n]|:$)/m, Text, :pop!
     rule /[ ]*:\S+/, Str
     rule /[ ]+(?=#)/, Text, :pop!
-    rule /[ ]+$/, Text
+    rule /[ ]+$/m, Text
     # check for new documents or dedents at the new line
     rule /\n+/ do |m|
       m.token Text
@@ -359,7 +359,7 @@ class Noir::Lexers::YAML < Noir::Lexer
     rule /[ ]*(?=[,:?\[\]{}])/, Text, :pop!
     rule /[ ]+(?=#)/, Text, :pop!
     rule /^[ ]+/, Text
-    rule /[ ]+$/, Text
+    rule /[ ]+$/m, Text
     rule /\n+/, Text
     rule /[ ]+/, Name::Variable
     rule /[^\s,:?\[\]{}]+/, Name::Variable
